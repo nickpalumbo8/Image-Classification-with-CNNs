@@ -41,7 +41,7 @@ from torch import nn
 
 
 class VGG16(nn.Module):
-    def __init__(self, num_classes=1000):
+    def __init__(self, dev):
         super(VGG16, self).__init__()
         self.features = nn.Sequential(
             nn.Conv2d(3, 64, kernel_size=3, padding=1),
@@ -82,13 +82,13 @@ class VGG16(nn.Module):
         )
         self.avgpool = nn.AdaptiveAvgPool2d((7, 7))
         self.classifier = nn.Sequential(
-            nn.Linear(512 * 7 * 7, 4096),
+            nn.Linear(512 * 7 * 7, 4096, device=dev),
             nn.ReLU(inplace=True),
             nn.Dropout(),
-            nn.Linear(4096, 4096),
+            nn.Linear(4096, 4096, device=dev),
             nn.ReLU(inplace=True),
             nn.Dropout(),
-            nn.Linear(4096, num_classes),
+            nn.Linear(4096, 2, device=dev),
         )
 
     def forward(self, x):

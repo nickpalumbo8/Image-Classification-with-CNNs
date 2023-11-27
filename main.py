@@ -7,17 +7,20 @@ import VGG16
 import ImageData
 import DataLogger
 
+CUDA_VISIBLE_DEVICES=1
+
 # Set hyperparameters
 learning_rates = [1e-5]
-batch_sizes = [ 32 , 64 , 128 ]
+batch_sizes = [ 16 , 32 , 64 ]
 epochs = 2
 
 # Data Location
-dataPath = "C:/Users/nickp/OneDrive/Desktop/dogs-vs-cats/data/train"
+dataPath = "./dogs-vs-cats/data/train"
 
 # Device
 if torch.cuda.is_available():
     device = torch.device('cuda')
+    print(torch.cuda.get_device_name(0))
 else:
     print('Warning: No CUDA device available')
     device = torch.device('cpu')
@@ -93,6 +96,7 @@ for currLR in learning_rates:
         #model = LinearNetwork.LinearNetwork(device)
         #model = AlexNetwork.AlexNetwork(device)
         model = VGG16.VGG16(device)
+        model.cuda()
         
         ### Optimizer ###
         optimizer = torch.optim.Adam(model.parameters(), lr=currLR)
@@ -100,7 +104,7 @@ for currLR in learning_rates:
     
         ### Data Loaders ###
         trainData, testData = imageData.getBatches(currBS)
-        
+
         print(f"--- LR ({currLR}) --- Batch Size ({currBS})")
     
         for e in range(epochs):
