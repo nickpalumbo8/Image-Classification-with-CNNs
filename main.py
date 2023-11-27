@@ -3,34 +3,24 @@ from torch import nn
 
 import AlexNetwork
 import LinearNetwork
+import VGG16
 import ImageData
 import DataLogger
 
-
-
 # Set hyperparameters
-
 learning_rates = [1e-5]
 batch_sizes = [ 32 , 64 , 128 ]
 epochs = 2
 
-
 # Data Location
-
-dataPath = "./data/dogs-vs-cats/data/train"
-
+dataPath = "C:/Users/nickp/OneDrive/Desktop/dogs-vs-cats/data/train"
 
 # Device
-
 if torch.cuda.is_available():
     device = torch.device('cuda')
-
 else:
     print('Warning: No CUDA device available')
     device = torch.device('cpu')
-
-
-
 
 
 loss_fn = nn.CrossEntropyLoss()
@@ -84,12 +74,10 @@ def test_loop(dataloader, model):
 
 
 ### Initialize Log ###
-
 log = DataLogger.Log()
 
 
 ### Initial Data Loading ###
-
 imageData = ImageData.ImageDataLoader(dataPath)
 
 
@@ -102,18 +90,15 @@ for currLR in learning_rates:
         log.logCurrentBatchSize(currBS)
         
         ### Model ###
-
-        model = LinearNetwork.LinearNetwork(device)
+        #model = LinearNetwork.LinearNetwork(device)
         #model = AlexNetwork.AlexNetwork(device)
-        
+        model = VGG16.VGG16(device)
         
         ### Optimizer ###
-
         optimizer = torch.optim.Adam(model.parameters(), lr=currLR)
     
     
         ### Data Loaders ###
-        
         trainData, testData = imageData.getBatches(currBS)
         
         print(f"--- LR ({currLR}) --- Batch Size ({currBS})")
