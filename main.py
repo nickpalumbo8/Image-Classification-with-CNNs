@@ -29,7 +29,7 @@ else:
 loss_fn = nn.CrossEntropyLoss()
 
 
-def train_loop(dataloader, model, optimizer):
+def train_loop(dataloader, model, loss_fn, optimizer):
     
     batchesPerBarBlock = round(len(dataloader) / 20)
     size = len(dataloader.dataset)
@@ -51,7 +51,7 @@ def train_loop(dataloader, model, optimizer):
             print(f"  loss = {loss:>8f}")
     
 
-def test_loop(dataloader, model):
+def test_loop(dataloader, model, loss_fn):
 
     model.eval()
     size = len(dataloader.dataset)
@@ -113,8 +113,8 @@ for currEpoch in epochs:
 
                 print(f"Epoch: {e + 1}", end=' ', flush=True)
                 
-                train_loop(trainData, model, optimizer)
-                acc, loss = test_loop(testData, model)
+                train_loop(trainData, model, loss_fn, optimizer)
+                acc, loss = test_loop(testData, model, loss_fn)
                 
                 log.logEpochResults(acc, loss)
             
