@@ -1,24 +1,85 @@
 ______________ Training Summary ______________
 
-Learning Rates : [1e-05]
-Batch Sizes    : [16, 32, 64]
-Epochs         : 2
+Learning Rates : [1e-05, 1e-05, 1e-05]
+Batch Sizes    : [16]
+Epochs         : [2, 3, 4]
 ______________________________________________
 
+
+Epoch = 2
 
 Learning rate = 1e-05
 
     Batch size = 16
 
-        1:  Accuracy = 83.10%  ,  loss = 0.454288
-        2:  Accuracy = 83.10%  ,  loss = 0.448518
+        1:  Accuracy = 83.10%  ,  loss = 0.453288
+        2:  Accuracy = 83.10%  ,  loss = 0.446559
 
-    Batch size = 32
+Learning rate = 1e-05
 
-        1:  Accuracy = 83.10%  ,  loss = 0.455028
-        2:  Accuracy = 83.10%  ,  loss = 0.451641
+    Batch size = 16
 
-    Batch size = 64
+        1:  Accuracy = 83.10%  ,  loss = 0.453661
+        2:  Accuracy = 83.10%  ,  loss = 0.446594
+        3:  Accuracy = 83.10%  ,  loss = 0.445880
 
-        1:  Accuracy = 83.10%  ,  loss = 0.455374
-        2:  Accuracy = 83.10%  ,  loss = 0.455154
+Learning rate = 1e-05
+
+    Batch size = 16
+
+        1:  Accuracy = 83.10%  ,  loss = 0.454109
+        2:  Accuracy = 83.10%  ,  loss = 0.446315
+        3:  Accuracy = 83.10%  ,  loss = 0.445508
+        4:  Accuracy = 83.10%  ,  loss = 0.436346
+
+Epoch = 3
+
+Learning rate = 1e-05
+
+    Batch size = 16
+
+        1:  Accuracy = 83.10%  ,  loss = 0.453288
+        2:  Accuracy = 83.10%  ,  loss = 0.446559
+
+Learning rate = 1e-05
+
+    Batch size = 16
+
+        1:  Accuracy = 83.10%  ,  loss = 0.453661
+        2:  Accuracy = 83.10%  ,  loss = 0.446594
+        3:  Accuracy = 83.10%  ,  loss = 0.445880
+
+Learning rate = 1e-05
+
+    Batch size = 16
+
+        1:  Accuracy = 83.10%  ,  loss = 0.454109
+        2:  Accuracy = 83.10%  ,  loss = 0.446315
+        3:  Accuracy = 83.10%  ,  loss = 0.445508
+        4:  Accuracy = 83.10%  ,  loss = 0.436346
+
+Epoch = 4
+
+Learning rate = 1e-05
+
+    Batch size = 16
+
+        1:  Accuracy = 83.10%  ,  loss = 0.453288
+        2:  Accuracy = 83.10%  ,  loss = 0.446559
+
+Learning rate = 1e-05
+
+    Batch size = 16
+
+        1:  Accuracy = 83.10%  ,  loss = 0.453661
+        2:  Accuracy = 83.10%  ,  loss = 0.446594
+        3:  Accuracy = 83.10%  ,  loss = 0.445880
+
+Learning rate = 1e-05
+
+    Batch size = 16
+
+        1:  Accuracy = 83.10%  ,  loss = 0.454109
+        2:  Accuracy = 83.10%  ,  loss = 0.446315
+        3:  Accuracy = 83.10%  ,  loss = 0.445508
+        4:  Accuracy = 83.10%  ,  loss = 0.436346

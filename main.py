@@ -11,8 +11,8 @@ CUDA_VISIBLE_DEVICES=1
 
 # Set hyperparameters
 learning_rates = [1e-5]
-batch_sizes = [ 16 , 32 , 64 ]
-epochs = 2
+batch_sizes = [16] #[ 16 , 32 , 64 ]
+epochs = [2, 3, 4]
 
 # Data Location
 dataPath = "./dogs-vs-cats/data/train"
@@ -83,40 +83,42 @@ log = DataLogger.Log()
 ### Initial Data Loading ###
 imageData = ImageData.ImageDataLoader(dataPath)
 
+for currEpoch in epochs:
+    log.logCurrentEpoch(currEpoch)
 
-for currLR in learning_rates:
+    for currLR in learning_rates:
 
-    log.logCurrentLR(currLR)
+        log.logCurrentLR(currLR)
 
-    for currBS in batch_sizes:
-    
-        log.logCurrentBatchSize(currBS)
+        for currBS in batch_sizes:
         
-        ### Model ###
-        #model = LinearNetwork.LinearNetwork(device)
-        #model = AlexNetwork.AlexNetwork(device)
-        model = VGG16.VGG16(device)
-        model.cuda()
-        
-        ### Optimizer ###
-        optimizer = torch.optim.Adam(model.parameters(), lr=currLR)
-    
-    
-        ### Data Loaders ###
-        trainData, testData = imageData.getBatches(currBS)
-
-        print(f"--- LR ({currLR}) --- Batch Size ({currBS})")
-    
-        for e in range(epochs):
-
-            print(f"Epoch: {e + 1}", end=' ', flush=True)
+            log.logCurrentBatchSize(currBS)
             
-            train_loop(trainData, model, optimizer)
-            acc, loss = test_loop(testData, model)
+            ### Model ###
+            #model = LinearNetwork.LinearNetwork(device)
+            #model = AlexNetwork.AlexNetwork(device)
+            model = VGG16.VGG16(device)
+            model.cuda()
             
-            log.logEpochResults(acc, loss)
+            ### Optimizer ###
+            optimizer = torch.optim.Adam(model.parameters(), lr=currLR)
         
-        print()
+        
+            ### Data Loaders ###
+            trainData, testData = imageData.getBatches(currBS)
+
+            print(f"--- Number of Epochs ({currEpoch}) --- LR ({currLR}) --- Batch Size ({currBS}) ---")
+        
+            for e in range(currEpoch):
+
+                print(f"Epoch: {e + 1}", end=' ', flush=True)
+                
+                train_loop(trainData, model, optimizer)
+                acc, loss = test_loop(testData, model)
+                
+                log.logEpochResults(acc, loss)
+            
+            print()
 
 
 ### Save Results ###
