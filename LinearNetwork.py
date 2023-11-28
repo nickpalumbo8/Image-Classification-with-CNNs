@@ -6,9 +6,9 @@ class LinearNetwork(nn.Module):
         self.flatten = nn.Flatten()
         self.linear_layers = nn.Sequential(
             nn.Linear(224*224*3, 512, device=dev),
-            nn.ReLU(),
+            nn.ReLU(inplace=True),
             nn.Linear(512, 512, device=dev),
-            nn.ReLU(),
+            nn.ReLU(inplace=True),
             nn.Linear(512, 2, device=dev),
         )
 
