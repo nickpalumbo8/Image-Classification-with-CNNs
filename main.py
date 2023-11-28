@@ -12,7 +12,7 @@ CUDA_VISIBLE_DEVICES=1
 # Set hyperparameters
 learning_rates = [1e-5]
 batch_sizes = [16] #[ 16 , 32 , 64 ]
-epochs = [2, 3, 4]
+epochs = 3
 
 # Data Location
 dataPath = "./dogs-vs-cats/data/train"
@@ -20,7 +20,7 @@ dataPath = "./dogs-vs-cats/data/train"
 # Device
 if torch.cuda.is_available():
     device = torch.device('cuda')
-    print(torch.cuda.get_device_name(0))
+    print(torch.cuda.get_device_name(device))
 else:
     print('Warning: No CUDA device available')
     device = torch.device('cpu')
@@ -95,42 +95,40 @@ log = DataLogger.Log()
 ### Initial Data Loading ###
 imageData = ImageData.ImageDataLoader(dataPath, subset=True)
 
-for currEpoch in epochs:
-    log.logCurrentEpoch(currEpoch)
 
-    for currLR in learning_rates:
+for currLR in learning_rates:
 
-        log.logCurrentLR(currLR)
+    log.logCurrentLR(currLR)
 
-        for currBS in batch_sizes:
+    for currBS in batch_sizes:
+    
+        log.logCurrentBatchSize(currBS)
         
-            log.logCurrentBatchSize(currBS)
+        ### Model ###
+        #model = LinearNetwork.LinearNetwork(device)
+        #model = AlexNetwork.AlexNetwork(device)
+        model = VGG16.VGG16(device)
+        model.cuda()
+        
+        ### Optimizer ###
+        optimizer = torch.optim.Adam(model.parameters(), lr=currLR)
+    
+    
+        ### Data Loaders ###
+        trainData, testData = imageData.getBatches(currBS)
+
+        print(f"--- LR ({currLR}) --- Batch Size ({currBS}) ---")
+    
+        for e in range(epochs):
+
+            print(f"Epoch: {e + 1}", end=' ', flush=True)
             
-            ### Model ###
-            #model = LinearNetwork.LinearNetwork(device)
-            #model = AlexNetwork.AlexNetwork(device)
-            model = VGG16.VGG16(device)
-            model.cuda()
+            train_loop(trainData, model, loss_fn, optimizer)
+            acc, loss = test_loop(testData, model, loss_fn)
             
-            ### Optimizer ###
-            optimizer = torch.optim.Adam(model.parameters(), lr=currLR)
+            log.logEpochResults(acc, loss)
         
-        
-            ### Data Loaders ###
-            trainData, testData = imageData.getBatches(currBS)
-
-            print(f"--- Number of Epochs ({currEpoch}) --- LR ({currLR}) --- Batch Size ({currBS}) ---")
-        
-            for e in range(currEpoch):
-
-                print(f"Epoch: {e + 1}", end=' ', flush=True)
-                
-                train_loop(trainData, model, loss_fn, optimizer)
-                acc, loss = test_loop(testData, model, loss_fn)
-                
-                log.logEpochResults(acc, loss)
-            
-            print()
+        print()
 
 
 ### Save Results ###
