@@ -26,6 +26,12 @@ else:
     device = torch.device('cpu')
 
 
+# Disable Debugging APIs
+torch.autograd.set_detect_anomaly(enabled=False)
+torch.autograd.profiler.emit_nvtx(enabled=False)
+torch.autograd.profiler.profile(enabled=False)
+
+
 loss_fn = nn.CrossEntropyLoss()
 
 
@@ -42,7 +48,13 @@ def train_loop(dataloader, model, loss_fn, optimizer):
 
         loss.backward()
         optimizer.step()
-        optimizer.zero_grad()
+        #optimizer.zero_grad()
+        
+        # This method is more efficient than zero_grad()
+        # because it does not waste time overwriting
+        # the gradients with zeros
+        for param in model.parameters():
+            param.grad = None
 
         if ((batch + 1) % batchesPerBarBlock == 0):
             print('#', end='', flush=True)
