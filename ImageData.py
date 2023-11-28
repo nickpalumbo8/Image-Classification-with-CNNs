@@ -10,7 +10,7 @@ from torchvision.transforms import ToTensor
 
 class ImageDataLoader():
 
-    def __init__(self, path, trainPercent=0.75, imageDim=224):
+    def __init__(self, path, trainPercent=0.75, imageDim=224, subset=False):
         
         data_transform = transforms.Compose([
             transforms.Resize(size=(imageDim, imageDim)),
@@ -20,11 +20,15 @@ class ImageDataLoader():
         dataset = datasets.ImageFolder(root=path, transform=data_transform)
 
         # Save 75% of samples for training, 25% for validation
-        train_size = int(trainPercent * len(dataset))
-        test_size = len(dataset) - train_size
+        length = len(dataset)
+        if subset == True:
+            length = int(len(dataset) * 0.25)
 
-        self.train_dataset, self.test_dataset = torch.utils.data.random_split(dataset, [train_size, test_size])
+        train_size = int(trainPercent * length)
+        test_size = length - train_size
+        excess_size = len(dataset) - train_size - test_size
 
+        self.train_dataset, self.test_dataset, self.excess_dataset = torch.utils.data.random_split(dataset, [train_size, test_size, excess_size])
 
     def getBatches(self, batchSize):
         

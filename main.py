@@ -93,7 +93,7 @@ log = DataLogger.Log()
 
 
 ### Initial Data Loading ###
-imageData = ImageData.ImageDataLoader(dataPath)
+imageData = ImageData.ImageDataLoader(dataPath, subset=True)
 
 for currEpoch in epochs:
     log.logCurrentEpoch(currEpoch)
