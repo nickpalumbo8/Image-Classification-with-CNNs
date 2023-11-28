@@ -15,7 +15,7 @@ batch_sizes = [16] #[ 16 , 32 , 64 ]
 epochs = 3
 
 # Data Location
-dataPath = "./dogs-vs-cats/data/train"
+dataPath = "./data/dogs-vs-cats/data/train"
 
 # Device
 if torch.cuda.is_available():
@@ -27,7 +27,7 @@ else:
 
 
 # Disable Debugging APIs
-torch.autograd.set_detect_anomaly(enabled=False)
+torch.autograd.set_detect_anomaly(mode=False)
 torch.autograd.profiler.emit_nvtx(enabled=False)
 torch.autograd.profiler.profile(enabled=False)
 
@@ -106,9 +106,9 @@ for currLR in learning_rates:
         
         ### Model ###
         #model = LinearNetwork.LinearNetwork(device)
-        #model = AlexNetwork.AlexNetwork(device)
-        model = VGG16.VGG16(device)
-        model.cuda()
+        model = AlexNetwork.AlexNetwork(device)
+        #model = VGG16.VGG16(device)
+        model.to(device)
         
         ### Optimizer ###
         optimizer = torch.optim.Adam(model.parameters(), lr=currLR)
@@ -134,4 +134,5 @@ for currLR in learning_rates:
 ### Save Results ###
 
 log.saveSummary(r"summary.txt")
+log.saveGraphs()
 
