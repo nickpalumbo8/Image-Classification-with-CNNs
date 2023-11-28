@@ -1,3 +1,4 @@
+import matplotlib
 import matplotlib.pyplot as plt
 
 
@@ -89,6 +90,24 @@ class Log():
     
     
     def saveGraphs(self):
-        
-        return
+        # Accuracy vs Learning Rate
+        # Accuracy vs Batch size
 
+        xs = []
+        ys = []
+
+        for currBatch in range(len(self.batchSizes)):
+            for currLR in range(len(self.learningRates)):
+                data = self.epochData[currLR * len(self.batchSizes) + currBatch]
+
+                xs.append(self.learningRates[currLR])
+                ys.append(data[-1][0])
+
+            plt.plot(xs, ys, label=f"Batch size = {self.batchSizes[currBatch]}")
+            plt.xticks(xs)
+            xs = []; ys = []
+
+        plt.legend()
+        plt.xscale('log')
+        plt.savefig('test.png')
+        return
