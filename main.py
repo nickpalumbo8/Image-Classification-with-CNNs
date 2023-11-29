@@ -134,5 +134,8 @@ for currLR in learning_rates:
 ### Save Results ###
 
 log.saveSummary(r"summary.txt")
-log.saveGraphs()
+#log.saveGraphs()
 
+# See comments in 'DataLogger.py' on how these work
+log.saveBarGraph_LR("AlexNet", 'blue')
+log.saveBarGraph_BS("AlexNet", 'blue')

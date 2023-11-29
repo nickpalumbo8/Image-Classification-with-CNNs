@@ -111,3 +111,79 @@ class Log():
         plt.xscale('log')
         plt.savefig('test.png')
         return
+        
+        
+    #
+    # Creates a bar graph showing the accuracy after training with
+    # different Learning Rates with a constant batch size and number of epochs.
+    #
+    # !!! If multiple batch sizes are used, this method will not do anything !!!
+    #
+    def saveBarGraph_LR(self, modelName, color='blue', width=0.3):
+            # Accuracy vs Learning Rate
+
+            if (len(self.batchSizes) > 1):
+                
+                print("Learning rate bar graph - skipping")
+                return
+                
+            else:
+            
+                print("Learning rate bar graph - generating")
+
+            xs = []
+            ys = []
+            
+            for currLR in range(len(self.learningRates)):
+            
+                data = self.epochData[currLR]
+
+                xs.append(str(self.learningRates[currLR]))
+                ys.append(data[-1][0])
+            
+            plt.title(f"{modelName} - Learning Rate Influence\n({len(self.epochData[0])} epochs)(batch size {self.batchSizes[0]})")
+            plt.ylabel("Accuracy (%)")
+            plt.xlabel("Learning Rate")
+            
+            
+            plt.bar(xs, ys, color=color, width=width)
+            
+            plt.savefig(f"{modelName}_lr_barplot.png")
+
+
+    #
+    # Creates a bar graph showing the accuracy after training with
+    # different Batch Sizes with a constant learning rate and number of epochs.
+    #
+    # !!! If multiple learning rates are used, this method will not do anything !!!
+    #
+    def saveBarGraph_BS(self, modelName, color='blue', width=0.3):
+            # Accuracy vs Batch size
+            
+            if (len(self.learningRates) > 1):
+                
+                print("Batch size bar graph - skipping")
+                return
+                
+            else:
+            
+                print("Batch size bar graph - generating")
+
+            xs = []
+            ys = []
+            
+            for currBS in range(len(self.batchSizes)):
+            
+                data = self.epochData[currBS]
+
+                xs.append(str(self.batchSizes[currBS]))
+                ys.append(data[-1][0])
+            
+            plt.title(f"{modelName} - Batch Size Influence\n({len(self.epochData[0])} epochs)(learning rate {self.learningRates[0]})")
+            plt.ylabel("Accuracy (%)")
+            plt.xlabel("Batch Size")
+            
+            
+            plt.bar(xs, ys, color=color, width=width)
+            
+            plt.savefig(f"{modelName}_bs_barplot.png")
